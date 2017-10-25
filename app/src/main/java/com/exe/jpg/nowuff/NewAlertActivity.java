@@ -2,8 +2,10 @@ package com.exe.jpg.nowuff;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -34,6 +36,9 @@ public class NewAlertActivity extends AppCompatActivity
         disposable = new CompositeDisposable();
 
         campus = getIntent().getIntExtra("campus", -1);
+
+        editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        editText.setRawInputType(editText.getInputType() & ~InputType.TYPE_TEXT_FLAG_MULTI_LINE);
     }
 
     @Override

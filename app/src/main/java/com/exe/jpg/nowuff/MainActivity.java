@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements INotificationList
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Recentes");
+        setTitle("Os últimos avisos");
 
         alerts = new AlertModel[3][];
 
