@@ -17,6 +17,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Patrick on 25/10/2017.
@@ -27,7 +28,7 @@ public interface APIService
     @GET("users/{id}")
     Observable<GetUserResponse> getUserData (@Path("id") long id);
     @GET("alerts")
-    Observable<GetAlertsResponse> getAlertsData ();
+    Observable<GetAlertsResponse> getAlertsData (@Query("campus") int campus);
     @GET("alert/{id}")
     Observable<GetAlertResponse> getAlertData (@Path("id") long id);
     @FormUrlEncoded

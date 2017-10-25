@@ -5,11 +5,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.exe.jpg.nowuff.API.APIService;
+import com.exe.jpg.nowuff.API.Model.AlertModel;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -20,6 +28,11 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView recycler;
     private MainAdapter adapter;
 
+    private CompositeDisposable disposable;
+    private APIService service;
+
+    private AlertModel[][] alerts;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -27,21 +40,37 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         setTitle("Recentes");
 
+        alerts = new AlertModel[3][];
+
+        disposable = new CompositeDisposable();
+        service = APIController.GetUserService();
+
         recycler = (RecyclerView) findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MainAdapter(new String[]{"Teste 123 123 123"});
-       recycler.setAdapter(adapter);
 
-        Intent extra = getIntent();
+        final Intent extra = getIntent();
         currentPage = extra.getIntExtra("currentPage", 0);
 
         backgroundView = (ImageView) findViewById(R.id.background_view);
         titleView = (TextView) findViewById(R.id.title_view);
-        Invalidate();
+
+        Refresh();
+
+        final SessionController session = SessionController.getInstance();
+        if(session.isPendingFcmTokenUpdate())
+        {
+            disposable.add(service.updateUserFcmToken(session.getId(), session.getFcmToken())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(r -> {
+                if(r.getStatus().equals("200"))
+                    session.removePendingFcmTokenUpdate();
+            }));
+        }
     }
 
     public void NewAlertPressed(View v){
-        startActivity(new Intent(this, NewAlertActivity.class));
+        startActivity(new Intent(this, NewAlertActivity.class).putExtra("campus", currentPage));
     }
 
     private void Invalidate(){
@@ -60,23 +89,53 @@ public class MainActivity extends AppCompatActivity
                 titleView.setText("Valonguinho");
                 break;
         }
+        if(alerts[currentPage] != null)
+        {
+            adapter = new MainAdapter(alerts[currentPage]);
+            recycler.setAdapter(adapter);
+        }
+    }
 
+    private void Refresh(){
+        for(int i = 0; i<3; i++)
+        {
+            final int _i = i;
+            disposable.add(service.getAlertsData(_i)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(r -> {
+                        alerts[_i] = r.getData().toArray(new AlertModel[r.getData().size()]);
+
+                        if(_i == currentPage)
+                            Invalidate();
+                    })
+            );
+        }
     }
 
     public void NextPressed(View v){
         currentPage = currentPage < 3 - 1 ? currentPage + 1 : 0;
         Invalidate();
+        Refresh();
     }
 
     public void BackPressed(View v)
     {
         currentPage = currentPage > 0 ? currentPage - 1 : 3 - 1;
         Invalidate();
+        Refresh();
+    }
+
+
+    @Override
+    public void onDestroy(){
+        disposable.clear();
+        super.onDestroy();
     }
 
 
     private class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
-        private String[] data;
+        private AlertModel[] data;
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             public TextView textView;
@@ -87,12 +146,12 @@ public class MainActivity extends AppCompatActivity
                 hearts = new ImageView[]{
                     (ImageView) v.findViewById(R.id.heart_1),
                     (ImageView) v.findViewById(R.id.heart_2),
-                    (ImageView) v.findViewById(R.id.heart_2)
+                    (ImageView) v.findViewById(R.id.heart_3)
                 };
             }
         }
 
-        public MainAdapter(String[] data) {
+        public MainAdapter(AlertModel[] data) {
             this.data = data;
         }
 
@@ -105,7 +164,9 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.textView.setText(data[position]);
+            holder.textView.setText(data[position].getText());
+            holder.hearts[1].setImageResource(data[position].getRating() >= 1.5f ? R.drawable.ic_heart_on : R.drawable.ic_heart_off);
+            holder.hearts[2].setImageResource(data[position].getRating() >= 2.5f ? R.drawable.ic_heart_on : R.drawable.ic_heart_off);
         }
 
         @Override

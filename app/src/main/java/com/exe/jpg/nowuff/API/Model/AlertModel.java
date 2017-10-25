@@ -20,7 +20,7 @@ public class AlertModel
     private String text;
     @SerializedName("rating")
     @Expose
-    private float rating;
+    private Float rating;
     @SerializedName("posted")
     @Expose
     private String posted;
@@ -49,11 +49,11 @@ public class AlertModel
         this.text = text;
     }
 
-    public float getRating() {
+    public Float getRating() {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 

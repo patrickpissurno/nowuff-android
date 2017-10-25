@@ -11,8 +11,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.exe.jpg.nowuff.API.APIService;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+
 public class RegisterActivity extends AppCompatActivity
 {
+    private CompositeDisposable disposable;
+    private APIService service = APIController.GetUserService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -20,6 +28,16 @@ public class RegisterActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         setTitle("Registrar");
+
+        disposable = new CompositeDisposable();
+
+        disposable.add(service.getUserData(SessionController.getInstance().getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(r -> {
+                    if(r.getData().getCampus() != -1)
+                        selectCampus(r.getData().getCampus());
+                }));
     }
 
     public void ChoosePressed(View v){
@@ -36,8 +54,24 @@ public class RegisterActivity extends AppCompatActivity
                 selected = 2;
                 break;
         }
+        selectCampus(selected);
+    }
 
-        startActivity(new Intent(this, MainActivity.class).putExtra("currentPage", selected));
-        finish();
+    private void selectCampus(int selected)
+    {
+        disposable.add(service.updateUserCampus(SessionController.getInstance().getId(), selected)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(r -> {
+            startActivity(new Intent(this, MainActivity.class).putExtra("currentPage", selected));
+            finish();
+        }));
+
+    }
+
+    @Override
+    public void onDestroy(){
+        disposable.clear();
+        super.onDestroy();
     }
 }
