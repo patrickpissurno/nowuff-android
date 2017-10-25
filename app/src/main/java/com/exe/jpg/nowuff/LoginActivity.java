@@ -46,12 +46,7 @@ public class LoginActivity extends AppCompatActivity
                         disposable.add(service.user(accessToken.getUserId(), accessToken.getToken())
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(r -> {
-                                    SessionController.getInstance().setAuth(r.getAuthToken(), r.getId());
-
-                                    startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-                                    finish();
-                                }, err -> internetError()));
+                                .subscribe(r -> goToNextActivity(r.getAuthToken(), r.getId()), err -> internetError()));
                     }
 
                     @Override
@@ -66,6 +61,21 @@ public class LoginActivity extends AppCompatActivity
                         internetError();
                     }
                 });
+    }
+
+    private void goToNextActivity(String authToken, long id){
+        disposable.add(APIController.GetUserService().getUserData(SessionController.getInstance().getId())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(r -> {
+                SessionController.getInstance().setAuth(authToken, id);
+                int campus = r.getData().getCampus();
+                if(campus != -1)
+                    startActivity(new Intent(this, MainActivity.class).putExtra("currentPage", campus));
+                else
+                    startActivity(new Intent(this, RegisterActivity.class));
+                finish();
+            }, err -> internetError()));
     }
 
     @Override
