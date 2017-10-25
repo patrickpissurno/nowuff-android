@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.exe.jpg.nowuff.API.APIService;
 import com.exe.jpg.nowuff.API.AuthService;
+import com.exe.jpg.nowuff.API.LoggingInterceptor;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import okhttp3.OkHttpClient;
@@ -32,13 +33,15 @@ public class APIController
 //                .connectTimeout(30, TimeUnit.SECONDS)
 //                .readTimeout(30, TimeUnit.SECONDS)
 //                .writeTimeout(30, TimeUnit.SECONDS)
-                .addInterceptor(chain -> {
-                    Request rq = chain.request();
-                    Log.d("REQ", rq.toString());
-                    Response r = chain.proceed(rq);
-                    Log.d("RESP", r.toString());
-                    return r;
-                })
+//                .addInterceptor(chain -> {
+//                    Request rq = chain.request();
+//                    Log.d("REQ", rq.toString());
+//                    Response r = chain.proceed(rq);
+//                    Log.d("RESP", r.toString());
+//                    Log.d("RESP B", r.body().string());
+//                    return r;
+//                })
+                .addInterceptor(new LoggingInterceptor())
                 ;
     }
 
