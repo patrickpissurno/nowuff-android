@@ -1,6 +1,7 @@
 package com.exe.jpg.nowuff;
 
 import android.content.Intent;
+import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,12 +15,13 @@ import android.widget.TextView;
 
 import com.exe.jpg.nowuff.API.APIService;
 import com.exe.jpg.nowuff.API.Model.AlertModel;
+import com.tapadoo.alerter.Alerter;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements INotificationListener
 {
     private int currentPage = 0;
     private ImageView backgroundView;
@@ -53,8 +55,6 @@ public class MainActivity extends AppCompatActivity
 
         backgroundView = (ImageView) findViewById(R.id.background_view);
         titleView = (TextView) findViewById(R.id.title_view);
-
-        Refresh();
 
         final SessionController session = SessionController.getInstance();
         if(session.isPendingFcmTokenUpdate())
@@ -133,6 +133,31 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        NotificationController.getInstance().addListener(this);
+        Refresh();
+    }
+
+    @Override
+    public  void onPause(){
+        super.onPause();
+        NotificationController.getInstance().removeListener(this);
+    }
+
+    @Override
+    public void onReceiveNotification(int id, String title, String body, ArrayMap<String, String> data) {
+        Alerter.create(this)
+                .setTitle(title)
+                .setText(body)
+                .setDuration(5000)
+                .enableIconPulse(true)
+                .setBackgroundColorRes(R.color.colorAccent)
+                .show().findViewById(R.id.pbProgress).setVisibility(View.GONE);
+
+        runOnUiThread(this::onResume);
+    }
 
     private class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         private AlertModel[] data;
