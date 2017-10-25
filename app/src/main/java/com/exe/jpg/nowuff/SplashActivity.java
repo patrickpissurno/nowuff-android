@@ -18,7 +18,10 @@ public class SplashActivity extends AppCompatActivity
         new APIController();
         new NotificationController();
 
-        startActivity(new Intent(this, LoginActivity.class));
+        if(!SessionController.getInstance().isAuthenticated())
+            startActivity(new Intent(this, LoginActivity.class));
+        else
+            startActivity(new Intent(this, RegisterActivity.class));
         finish();
     }
 }
