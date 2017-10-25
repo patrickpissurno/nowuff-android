@@ -19,6 +19,7 @@ public class NewAlertActivity extends AppCompatActivity
     private EditText editText;
     private CompositeDisposable disposable;
     private int campus;
+    private LoadingView loadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,6 +47,12 @@ public class NewAlertActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed(){
+        if(loadingView == null)
+            super.onBackPressed();
+    }
+
     private void internetError(){
         Alerter.create(this)
                 .setTitle("Você está offline")
@@ -54,6 +61,8 @@ public class NewAlertActivity extends AppCompatActivity
                 .enableIconPulse(true)
                 .setBackgroundColorRes(R.color.colorDarkGrey)
                 .show().findViewById(R.id.pbProgress).setVisibility(View.GONE);
+        if(loadingView != null)
+            loadingView.Hide(() -> loadingView = null);
     }
 
     private void error(String description){
@@ -68,6 +77,7 @@ public class NewAlertActivity extends AppCompatActivity
             error("Seu alerta é grande demais. Seja mais específico");
         else
         {
+            loadingView = LoadingView.Show(this);
             final APIService service = APIController.GetUserService();
             disposable.add(service.postAlert(txt, campus)
                     .subscribeOn(Schedulers.io())

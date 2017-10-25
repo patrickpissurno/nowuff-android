@@ -24,6 +24,8 @@ public class LoginActivity extends AppCompatActivity
 {
     private CallbackManager callbackManager;
     private CompositeDisposable disposable;
+    private LoadingView loadingView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -66,6 +68,12 @@ public class LoginActivity extends AppCompatActivity
                 });
     }
 
+    @Override
+    public void onBackPressed(){
+        if(loadingView == null)
+            super.onBackPressed();
+    }
+
     private void internetError(){
         Alerter.create(this)
                 .setTitle("Você está offline")
@@ -74,6 +82,8 @@ public class LoginActivity extends AppCompatActivity
                 .enableIconPulse(true)
                 .setBackgroundColorRes(R.color.colorDarkGrey)
                 .show().findViewById(R.id.pbProgress).setVisibility(View.GONE);
+        if(loadingView != null)
+            loadingView.Hide(() -> loadingView = null);
     }
 
     @Override
@@ -84,6 +94,7 @@ public class LoginActivity extends AppCompatActivity
 
     public void LoginPressed(View v)
     {
+        loadingView = LoadingView.Show(this);
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
     }
 

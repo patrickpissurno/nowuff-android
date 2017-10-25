@@ -31,4 +31,5 @@
         android:text="Publicar"
         android:textColor="@android:color/white"
         android:onClick="PostPressed"/>
+    <include layout="@layout/holder"/>
 </FrameLayout>

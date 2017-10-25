@@ -1,96 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
+<FrameLayout android:layout_width="match_parent"
              android:layout_height="match_parent"
              xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
              xmlns:app="http://schemas.android.com/apk/res-auto">
-    <TextView
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:textSize="20sp"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="25dp"
-        android:text="Olá! Antes de começar, selecione o seu campus"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
-        <FrameLayout
-            android:id="@+id/choose_gragoata"
-            android:layout_width="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:onClick="ChoosePressed"
-            android:clickable="true">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="1dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/gragoata"/>
-            <TextView
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:textSize="26sp"
-                android:textColor="@android:color/white"
-                android:text="Gragoatá"/>
-        </FrameLayout>
+            android:fontFamily="sans-serif-light"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="25dp"
+            android:text="Olá! Antes de começar, selecione o seu campus"/>
 
-        <FrameLayout
-            android:id="@+id/choose_praia"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:onClick="ChoosePressed"
-            android:clickable="true">
-            <ImageView
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            <FrameLayout
+                android:id="@+id/choose_gragoata"
                 android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="1dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/praia"/>
-            <TextView
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:textSize="26sp"
-                android:textColor="@android:color/white"
-                android:text="Praia Vermelha"/>
-        </FrameLayout>
+                android:foreground="?android:attr/selectableItemBackground"
+                android:onClick="ChoosePressed"
+                android:clickable="true">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="125dp"
+                    android:layout_marginBottom="1dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/gragoata"/>
+                <TextView
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="26sp"
+                    android:textColor="@android:color/white"
+                    android:text="Gragoatá"/>
+            </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/choose_valonguinho"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:onClick="ChoosePressed"
-            android:clickable="true">
-            <ImageView
+            <FrameLayout
+                android:id="@+id/choose_praia"
                 android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:layout_marginBottom="1dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/valonguinho"/>
-            <TextView
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:textSize="26sp"
-                android:textColor="@android:color/white"
-                android:text="Valonginho"/>
-        </FrameLayout>
+                android:foreground="?android:attr/selectableItemBackground"
+                android:onClick="ChoosePressed"
+                android:clickable="true">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="125dp"
+                    android:layout_marginBottom="1dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/praia"/>
+                <TextView
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="26sp"
+                    android:textColor="@android:color/white"
+                    android:text="Praia Vermelha"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/choose_valonguinho"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:onClick="ChoosePressed"
+                android:clickable="true">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="125dp"
+                    android:layout_marginBottom="1dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/valonguinho"/>
+                <TextView
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="26sp"
+                    android:textColor="@android:color/white"
+                    android:text="Valonginho"/>
+            </FrameLayout>
+        </LinearLayout>
     </LinearLayout>
-
-</LinearLayout>
+    <include layout="@layout/holder"/>
+</FrameLayout>

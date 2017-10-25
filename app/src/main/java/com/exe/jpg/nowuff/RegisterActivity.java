@@ -22,6 +22,7 @@ public class RegisterActivity extends AppCompatActivity
 {
     private CompositeDisposable disposable;
     private APIService service = APIController.GetUserService();
+    private LoadingView loadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,6 +34,12 @@ public class RegisterActivity extends AppCompatActivity
         disposable = new CompositeDisposable();
     }
 
+    @Override
+    public void onBackPressed(){
+        if(loadingView == null)
+            super.onBackPressed();
+    }
+
     private void internetError(){
         Alerter.create(this)
                 .setTitle("Você está offline")
@@ -41,6 +48,8 @@ public class RegisterActivity extends AppCompatActivity
                 .enableIconPulse(true)
                 .setBackgroundColorRes(R.color.colorDarkGrey)
                 .show().findViewById(R.id.pbProgress).setVisibility(View.GONE);
+        if(loadingView != null)
+            loadingView.Hide(() -> loadingView = null);
     }
 
     public void ChoosePressed(View v){
@@ -62,6 +71,7 @@ public class RegisterActivity extends AppCompatActivity
 
     private void selectCampus(int selected)
     {
+        loadingView = LoadingView.Show(this);
         disposable.add(service.updateUserCampus(SessionController.getInstance().getId(), selected)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())

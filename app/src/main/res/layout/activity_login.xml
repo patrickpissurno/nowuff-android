@@ -28,4 +28,5 @@
         android:text="Entrar com Facebook"
         android:textColor="@color/colorPrimary"
         android:onClick="LoginPressed"/>
+    <include layout="@layout/holder"/>
 </FrameLayout>
