@@ -53,15 +53,15 @@ public class SessionController
     }
 
     public boolean isPendingFcmTokenUpdate(){
-        return false;//PreferencesController.getInstance().getWrapper().getBoolean(FCMInstanceIDService.KEY_PENDING_NEW_TOKEN, fcmTokenPendingUpdate);
+        return PreferencesController.getInstance().getWrapper().getBoolean(FCMInstanceIDService.KEY_PENDING_NEW_TOKEN, fcmTokenPendingUpdate);
     }
 
     public void removePendingFcmTokenUpdate(){
-        //PreferencesController.getInstance().getWrapper().put(FCMInstanceIDService.KEY_PENDING_NEW_TOKEN, false);
+        PreferencesController.getInstance().getWrapper().put(FCMInstanceIDService.KEY_PENDING_NEW_TOKEN, false);
     }
 
     public String getFcmToken(){
-        return null;//PreferencesController.getInstance().getWrapper().getString(FCMInstanceIDService.KEY_FCM_TOKEN, fcmToken);
+        return PreferencesController.getInstance().getWrapper().getString(FCMInstanceIDService.KEY_FCM_TOKEN, fcmToken);
     }
 
     public void reset(){
@@ -70,6 +70,6 @@ public class SessionController
         final PreferencesWrapper prefs = PreferencesController.getInstance().getWrapper();
         prefs.put(TOKEN_KEY, this.authToken);
         prefs.put(ID_KEY, this.id);
-        //prefs.put(FCMInstanceIDService.KEY_PENDING_NEW_TOKEN, true);
+        prefs.put(FCMInstanceIDService.KEY_PENDING_NEW_TOKEN, true);
     }
 }

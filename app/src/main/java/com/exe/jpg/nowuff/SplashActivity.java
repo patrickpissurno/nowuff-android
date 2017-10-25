@@ -11,7 +11,13 @@ public class SplashActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+//        setContentView(R.layout.activity_splash);
+
+        new PreferencesController(this);
+        new SessionController();
+        new APIController();
+        new NotificationController();
+
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }

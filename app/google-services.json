@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "674378704250",
+    "firebase_url": "https://nowuff-40b13.firebaseio.com",
+    "project_id": "nowuff-40b13",
+    "storage_bucket": "nowuff-40b13.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674378704250:android:854619ebc886ec64",
+        "android_client_info": {
+          "package_name": "com.exe.jpg.nowuff"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674378704250-46btar7hpkskoisjn1la58kcv7f8jgla.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGHHjaDzsKiHvww-qlaihQNWszB6NqhYk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
