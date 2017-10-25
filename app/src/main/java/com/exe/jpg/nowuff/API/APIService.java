@@ -40,4 +40,10 @@ public interface APIService
     @FormUrlEncoded
     @POST("alerts")
     Observable<PostAlertResponse> postAlert (@Field("text") String text, @Field("campus") int campus);
+    @FormUrlEncoded
+    @POST("alerts/{id}/rating")
+    Observable<BaseResponse> rateAlert (@Path("id") long id, @Field("rating") int rating);
+
+    @POST("alerts/{id}/report")
+    Observable<BaseResponse> reportAlert (@Path("id") long id);
 }

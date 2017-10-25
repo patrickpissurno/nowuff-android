@@ -60,7 +60,7 @@ public class NotificationController
 
             final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle(context.getResources().getString(R.string.app_name))
+                    .setContentTitle(context.getResources().getString(R.string.notification_title))
                     .setContentText(title)
                     .setAutoCancel(true)
                     .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)

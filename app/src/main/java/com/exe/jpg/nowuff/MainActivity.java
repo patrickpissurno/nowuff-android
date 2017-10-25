@@ -182,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements INotificationList
         public class ViewHolder extends RecyclerView.ViewHolder {
             public TextView textView;
             public ImageView[] hearts;
+            public View v;
             public ViewHolder(View v) {
                 super(v);
                 textView = (TextView) v.findViewById(R.id.text_view);
@@ -190,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements INotificationList
                     (ImageView) v.findViewById(R.id.heart_2),
                     (ImageView) v.findViewById(R.id.heart_3)
                 };
+                this.v = v;
             }
         }
 
@@ -209,6 +211,11 @@ public class MainActivity extends AppCompatActivity implements INotificationList
             holder.textView.setText(data[position].getText());
             holder.hearts[1].setImageResource(data[position].getRating() >= 1.5f ? R.drawable.ic_heart_on : R.drawable.ic_heart_off);
             holder.hearts[2].setImageResource(data[position].getRating() >= 2.5f ? R.drawable.ic_heart_on : R.drawable.ic_heart_off);
+            holder.v.setClickable(true);
+            holder.v.setOnClickListener((e) -> {
+                final AlertModel m = data[holder.getAdapterPosition()];
+                startActivity(new Intent(MainActivity.this, AlertDetailsActivity.class).putExtra("id", m.getId()).putExtra("text", m.getText()));
+            });
         }
 
         @Override
