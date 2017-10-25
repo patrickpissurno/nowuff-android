@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:background="@color/colorPrimary">
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="75dp"
+        android:src="@drawable/logo"/>
+    <TextView
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:textSize="22sp"
+        android:textColor="@android:color/white"
+        android:text="Tudo que acontece na UFF em tempo real"/>
+    <Button
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_width="240dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="@android:color/white"
+        android:text="Entrar com Facebook"
+        android:textColor="@color/colorPrimary"
+        android:onClick="LoginPressed"/>
+</FrameLayout>
