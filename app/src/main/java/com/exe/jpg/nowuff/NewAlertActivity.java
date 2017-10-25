@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.exe.jpg.nowuff.API.APIService;
+import com.tapadoo.alerter.Alerter;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -45,6 +46,16 @@ public class NewAlertActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private void internetError(){
+        Alerter.create(this)
+                .setTitle("Você está offline")
+                .setText("Verifique sua conexão com a internet")
+                .setDuration(3000)
+                .enableIconPulse(true)
+                .setBackgroundColorRes(R.color.colorDarkGrey)
+                .show().findViewById(R.id.pbProgress).setVisibility(View.GONE);
+    }
+
     private void error(String description){
         Toast.makeText(this, description, Toast.LENGTH_SHORT).show();
     }
@@ -61,7 +72,7 @@ public class NewAlertActivity extends AppCompatActivity
             disposable.add(service.postAlert(txt, campus)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(r -> finish())
+                    .subscribe(r -> finish(), err -> internetError())
             );
         }
     }

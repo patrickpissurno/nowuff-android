@@ -5,10 +5,21 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:background="@color/colorPrimary">
     <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:indicatorName="BallPulseIndicator"
         app:indicatorColor="@android:color/white"
         android:layout_gravity="center"
         />
+    <Button
+        android:visibility="gone"
+        android:id="@+id/retry_button"
+        android:layout_gravity="center"
+        android:layout_width="180dp"
+        android:layout_height="65dp"
+        android:backgroundTint="@android:color/white"
+        android:text="Tentar novamente"
+        android:textColor="@color/colorPrimary"
+        android:onClick="RetryPressed"/>
 </FrameLayout>

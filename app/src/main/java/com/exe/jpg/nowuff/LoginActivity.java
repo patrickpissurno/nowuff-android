@@ -12,6 +12,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.tapadoo.alerter.Alerter;
 
 import java.util.Arrays;
 
@@ -48,19 +49,31 @@ public class LoginActivity extends AppCompatActivity
 
                                     startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
                                     finish();
-                                }));
+                                }, err -> internetError()));
                     }
 
                     @Override
                     public void onCancel() {
                         // App code
+                        internetError();
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
                         // App code
+                        internetError();
                     }
                 });
+    }
+
+    private void internetError(){
+        Alerter.create(this)
+                .setTitle("Você está offline")
+                .setText("Verifique sua conexão com a internet")
+                .setDuration(3000)
+                .enableIconPulse(true)
+                .setBackgroundColorRes(R.color.colorDarkGrey)
+                .show().findViewById(R.id.pbProgress).setVisibility(View.GONE);
     }
 
     @Override

@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements INotificationList
     private APIService service;
 
     private AlertModel[][] alerts;
+    private boolean firstFetch = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -108,9 +109,25 @@ public class MainActivity extends AppCompatActivity implements INotificationList
 
                         if(_i == currentPage)
                             Invalidate();
+                    }, err -> {
+                        if(firstFetch)
+                        {
+                            internetError();
+                            firstFetch = false;
+                        }
                     })
             );
         }
+    }
+
+    private void internetError(){
+        Alerter.create(this)
+                .setTitle("Você está offline")
+                .setText("Verifique sua conexão com a internet")
+                .setDuration(3000)
+                .enableIconPulse(true)
+                .setBackgroundColorRes(R.color.colorDarkGrey)
+                .show().findViewById(R.id.pbProgress).setVisibility(View.GONE);
     }
 
     public void NextPressed(View v){

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.exe.jpg.nowuff.API.APIService;
+import com.tapadoo.alerter.Alerter;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -30,14 +31,16 @@ public class RegisterActivity extends AppCompatActivity
         setTitle("Registrar");
 
         disposable = new CompositeDisposable();
+    }
 
-        disposable.add(service.getUserData(SessionController.getInstance().getId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(r -> {
-                    if(r.getData().getCampus() != -1)
-                        selectCampus(r.getData().getCampus());
-                }));
+    private void internetError(){
+        Alerter.create(this)
+                .setTitle("Você está offline")
+                .setText("Verifique sua conexão com a internet")
+                .setDuration(3000)
+                .enableIconPulse(true)
+                .setBackgroundColorRes(R.color.colorDarkGrey)
+                .show().findViewById(R.id.pbProgress).setVisibility(View.GONE);
     }
 
     public void ChoosePressed(View v){
@@ -65,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity
         .subscribe(r -> {
             startActivity(new Intent(this, MainActivity.class).putExtra("currentPage", selected));
             finish();
-        }));
+        }, err -> internetError()));
 
     }
 
