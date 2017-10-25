@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:inputType="textMultiLine|textCapSentences|textNoSuggestions"
+        android:imeOptions="actionDone"
         android:hint="Ex: alguém esqueceu o carro com laterna ligada. Placa: KVX-4433"/>
     <Button
         android:layout_gravity="bottom|center_horizontal"
